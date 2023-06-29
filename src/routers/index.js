@@ -1,10 +1,9 @@
 import authRouter from "./authRouter";
+import { notFound } from "../middlewares/handle_error";
 
 const initRouter = (app) => {
   app.use("/api/v1/auth", authRouter);
 
-  return app.use("/", (req, res) => {
-    return res.send("SERVER ONN");
-  });
+  app.use(notFound);
 };
 module.exports = initRouter;

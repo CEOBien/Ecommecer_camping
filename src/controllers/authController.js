@@ -1,4 +1,5 @@
 import * as services from "../services";
+import { internalServerError } from "../middlewares/handle_error";
 
 export const register = async (req, res) => {
   try {
@@ -10,7 +11,7 @@ export const register = async (req, res) => {
     return res.status(200).json(responsive);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ mess: "Iteral Server Error" });
+    internalServerError(res);
   }
 };
 
@@ -24,6 +25,6 @@ export const login = async (req, res) => {
     return res.status(200).json(responsive);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ mess: "Iteral Server Error" });
+    internalServerError(res);
   }
 };

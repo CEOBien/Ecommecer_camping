@@ -1,6 +1,7 @@
 import db from "../models";
 import argon from "argon2";
 import jwt from "jsonwebtoken";
+
 require("dotenv").config();
 
 //REGISTER

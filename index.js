@@ -43,7 +43,7 @@ connectDB();
 //ROUTER
 initRouter(app);
 
-const PORT = process.env.PORT;
-app.listen(PORT || 8080, () => {
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
   console.log("App is listening on Port " + PORT);
 });
