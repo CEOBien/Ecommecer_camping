@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const OTPgenerator = require("otp-generator");
 const otpService = require("./otpService");
 const { sendOtpToMail } = require("../helpers/sendMail");
+const jwt = require("jsonwebtoken");
 const authService = {
   verifyOtp: async ({ EMAIL, OTP }) => {
     return new Promise(async (resolve, reject) => {
@@ -108,18 +109,34 @@ const authService = {
         });
         //check code if exist or not
         if (!exist) throw createError.NotFound("Email not register");
-        const isPassword = await bcrypt.compare( PASSWORD, exist.PASSWORD);
+        const isPassword = await bcrypt.compare(PASSWORD, exist.PASSWORD);
         //if password incorrect then show error
         if (!isPassword) throw createError.Unauthorized();
-
+        //create accessToken
+        const accessToken = await authService.generateAccessToken(exist.id);
         resolve({
-          status:200,
+          status: 200,
           message: "Login successfully",
-          elements: 1
-        })
+          elements: accessToken,
+        });
       } catch (error) {
         reject(error);
       }
+    });
+  },
+  generateAccessToken: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      const payload = {
+        userId: userId,
+      };
+      const secret = process.env.KEY_SECRET;
+      const option = {
+        expiresIn: "1h",
+      };
+      jwt.sign(payload, secret, option, (err, token) => {
+        if (err) reject(err);
+        resolve(token);
+      });
     });
   },
 };
