@@ -1,0 +1,204 @@
+openapi: 3.0.1
+info:
+  title: NS Checkin REST APIs Document
+  # description: NS Checkin system REST API
+  # termsOfService: http://swagger.io/terms/
+  # contact:
+  #   name: Hyperledger Team
+  # license:
+  #   name: Apache 2.0
+  #   url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://wns.novasquare.vn:8345
+  - url: http://192.168.1.21:8345
+
+paths:
+  /api/auth/login:
+    post:
+      tags:
+        - authorization
+      summary: login
+      operationId: login
+      requestBody:
+        description: login
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+            example:
+              "USER_NAME": "duy.phan"
+              "USER_PW": "12345678"
+              "remember": true
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+
+  /api/country/getAll:
+    get:
+      tags:
+        - countries
+      summary: get all countries
+      operationId: get all countries
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      # security:
+      #   - JWT: []
+
+  /api/country/createCountry:
+    post:
+      tags:
+        - countries
+      summary: create country
+      operationId: create country
+      requestBody:
+        description: create country
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/country"
+            example:
+              "NAME": "country 1"
+              "DESC": "country 1"
+              "CD": "C001"
+              "NOTE": "NOTE 1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/country/getCountry/{countryId}:
+    get:
+      tags:
+        - countries
+      summary: get country details by country ID
+      operationId: get country details by country ID
+      parameters:
+        - name: countryId
+          in: path
+          description: Please provide countryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/country/updateCountry/{countryId}:
+    patch:
+      tags:
+        - countries
+      summary: update country details by country ID
+      operationId: update country details by country ID
+      parameters:
+        - name: countryId
+          in: path
+          description: Please provide countryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        description: update country
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/country"
+            example:
+              "NAME": "country 2"
+              "DESC": "country 2"
+              "CD": "C002"
+              "NOTE": "NOTE 1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/country/deleteCountry/{countryId}:
+    delete:
+      tags:
+        - countries
+      summary: delete country by country ID
+      operationId: delete country by country ID
+      parameters:
+        - name: countryId
+          in: path
+          description: Please provide countryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+ 

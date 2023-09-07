@@ -1,0 +1,12 @@
+{
+  "name": "NS_CHECKIN_CD",
+  "script": "dist/ns_checkin",
+  "watch": true,
+  "ignore_watch": [
+    "node_modules",
+    "swagger",
+    "dist",
+    "logs"
+  ],
+  "log": "logs/log.txt"
+}
