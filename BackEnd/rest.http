@@ -1,0 +1,28 @@
+
+### verifyOTP
+POST http://localhost:8345/api/auth/registerUser
+Content-Type: application/json
+
+{
+    "EMAIL": "daohai271@gmail.com"
+}
+
+### verifyOTP
+
+POST http://localhost:8345/api/auth/registerUser/verifyOtp
+Content-Type: application/json
+
+{
+    "EMAIL": "Daohai@gmail.com",
+    "OTP": "642715",
+}
+
+### login
+
+POST http://localhost:8345/api/auth/login
+Content-Type: application/json
+
+{
+    "EMAIL": "Daohai@gmail.com",
+    "PASSWORD": "44558",
+}
