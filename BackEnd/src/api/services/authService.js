@@ -5,7 +5,12 @@ const bcrypt = require("bcrypt");
 const OTPgenerator = require("otp-generator");
 const otpService = require("./otpService");
 const { sendOtpToMail } = require("../helpers/sendMail");
-const jwt = require("jsonwebtoken");
+const client = require("../../config/redis");
+const {
+  generateAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} = require("../middlewares/authenticate");
 const authService = {
   verifyOtp: async ({ EMAIL, OTP }) => {
     return new Promise(async (resolve, reject) => {
@@ -113,30 +118,74 @@ const authService = {
         //if password incorrect then show error
         if (!isPassword) throw createError.Unauthorized();
         //create accessToken
-        const accessToken = await authService.generateAccessToken(exist.id);
+        const accessToken = await generateAccessToken(exist.id);
+        const refreshToken = await signRefreshToken(exist.id);
         resolve({
           status: 200,
           message: "Login successfully",
-          elements: accessToken,
+          elements: {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+          },
         });
       } catch (error) {
         reject(error);
       }
     });
   },
-  generateAccessToken: (userId) => {
+  refreshToken: async ({refreshToken}) => {
     return new Promise(async (resolve, reject) => {
-      const payload = {
-        userId: userId,
-      };
-      const secret = process.env.KEY_SECRET;
-      const option = {
-        expiresIn: "1h",
-      };
-      jwt.sign(payload, secret, option, (err, token) => {
-        if (err) reject(err);
-        resolve(token);
-      });
+      try {
+        
+        const { userId } = await verifyRefreshToken(refreshToken);
+        const accessToken = await generateAccessToken(userId);
+        const refrToken = await signRefreshToken(userId);
+        resolve({
+          status: 200,
+          message: "Refresh token successfully",
+          elements: {
+            accessToken: accessToken,
+            refreshToken: refrToken,
+          },
+        });
+      } catch (error) {
+        console.log(error)
+        reject(error);
+      }
+    });
+  },
+  logout: async (refreshToken)=>{
+    return new Promise (async (resolve,reject)=>{
+      try {
+        const {userId} = verifyRefreshToken(refreshToken);
+        client.del(userId.toString(), (err,reply)=>{
+          if(err)
+            throw createError.InternalServerError();
+
+          resolve({
+            status:200,
+            message:"Logout successfully"
+          })
+        })
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+  changePassword: async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  forgetPassword: async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+      } catch (error) {
+        reject(error);
+      }
     });
   },
 };

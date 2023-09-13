@@ -3,7 +3,6 @@ const createError = require("http-errors");
 const logEvents = require("../helpers/logEvents.js");
 const { v4: uuid } = require("uuid");
 require("dotenv").config();
-const { authorize } = require("../middlewares/authorize");
 
 let router = express.Router();
 
