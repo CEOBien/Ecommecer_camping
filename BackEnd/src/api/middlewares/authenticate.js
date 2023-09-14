@@ -18,6 +18,22 @@ module.exports.generateAccessToken = (userId) => {
   });
 };
 
+module.exports.resetToken = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    const payload = {
+      userId: userId,
+    };
+    const secret = process.env.RESET_TOKEN_SECRET;
+    const option = {
+      expiresIn: "1m",
+    };
+    jwt.sign(payload, secret, option, (err, token) => {
+      if (err) reject(err);
+      resolve(token);
+    });
+  });
+};
+
 module.exports.verifyAccessToken = async (req, res, next) => {
   if (!req.headers["authorization"]) return next(createError.Unauthorized);
 

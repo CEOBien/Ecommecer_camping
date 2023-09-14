@@ -1,16 +1,18 @@
 const createError = require("http-errors");
-const { logCreate, logUpdate } = require("../helpers/logQuery");
 const db = require("../models");
 const bcrypt = require("bcrypt");
 const OTPgenerator = require("otp-generator");
 const otpService = require("./otpService");
-const { sendOtpToMail } = require("../helpers/sendMail");
+const { sendOtpToMail, resetPassword } = require("../helpers/sendMail");
 const client = require("../../config/redis");
 const {
   generateAccessToken,
   signRefreshToken,
   verifyRefreshToken,
+  resetToken,
 } = require("../middlewares/authenticate");
+const { hash } = require("../middlewares/hash");
+const jwt = require("jsonwebtoken");
 const authService = {
   verifyOtp: async ({ EMAIL, OTP }) => {
     return new Promise(async (resolve, reject) => {
@@ -41,11 +43,7 @@ const authService = {
           //random pasword
           const randomPassword = Math.floor(Math.random() * 999999) + 100000;
           //hash password
-          const salt = await bcrypt.genSalt(10);
-          const hashPassword = await bcrypt.hash(
-            randomPassword.toString(),
-            salt
-          );
+          const hashPassword = await hash(randomPassword.toString());
           //create account user
           const user = await db.Users.create({ EMAIL, PASSWORD: hashPassword });
 
@@ -116,7 +114,8 @@ const authService = {
         if (!exist) throw createError.NotFound("Email not register");
         const isPassword = await bcrypt.compare(PASSWORD, exist.PASSWORD);
         //if password incorrect then show error
-        if (!isPassword) throw createError.Unauthorized("Email or password incorrect");
+        if (!isPassword)
+          throw createError.Unauthorized("Email or password incorrect");
         //create accessToken
         const accessToken = await generateAccessToken(exist.id);
         const refreshToken = await signRefreshToken(exist.id);
@@ -188,8 +187,7 @@ const authService = {
         );
         if (!verifyPassword) throw createError.BadRequest("Password invalid");
 
-        const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(newPassword, salt);
+        const hashPassword = await hash(newPassword);
 
         await db.Users.update(
           {
@@ -215,13 +213,56 @@ const authService = {
     return new Promise(async (resolve, reject) => {
       try {
         const exist = await db.Users.findOne({
-          where:{
-            IS_DELETED:false,
+          where: {
+            IS_DELETED: false,
             EMAIL: email,
-          }
+          },
         });
-        if(!exist)
-          throw createError.NotFound("Your email not exist")
+        if (!exist) throw createError.NotFound("Your email not exist");
+        const resetPasswordToken = await resetToken(exist.id);
+
+        await resetPassword(email, resetPasswordToken);
+        resolve({
+          status: 200,
+          message: "Please check your email or spam email",
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  resetPassword: async (newPassword, token) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        //decode token
+        const decoded = jwt.verify(token, process.env.RESET_TOKEN_SECRET);
+        if(!decoded)
+          throw createError.Unauthorized(err.message);
+        const userId = decoded.userId;
+        //check if code exist or not
+        const exist = await db.Users.findOne({
+          where: {
+            IS_DELETED: false,
+            id: userId,
+          },
+        });
+        if (!exist) throw createError.NotFound("Token expried");
+        const hashPassword = await hash(newPassword);
+        await db.Users.update(
+          {
+            PASSWORD: hashPassword,
+          },
+          {
+            where: {
+              IS_DELETED: false,
+              id: userId,
+            },
+          }
+        );
+        resolve({
+          status: 200,
+          message: "Reset password successfully",
+        });
       } catch (error) {
         reject(error);
       }

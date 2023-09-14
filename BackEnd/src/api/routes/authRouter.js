@@ -13,5 +13,13 @@ router.patch(
   validChangePassword,
   authController.changePassword
 );
+router.patch(
+  "/forgetPassword",
+  authController.forgetPassword
+);
+router.patch(
+  "/resetPassword/:token",
+  authController.resetPassword
+);
 
 module.exports = router;
