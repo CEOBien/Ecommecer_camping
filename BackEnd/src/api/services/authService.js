@@ -116,7 +116,7 @@ const authService = {
         if (!exist) throw createError.NotFound("Email not register");
         const isPassword = await bcrypt.compare(PASSWORD, exist.PASSWORD);
         //if password incorrect then show error
-        if (!isPassword) throw createError.Unauthorized();
+        if (!isPassword) throw createError.Unauthorized("Email or password incorrect");
         //create accessToken
         const accessToken = await generateAccessToken(exist.id);
         const refreshToken = await signRefreshToken(exist.id);
@@ -133,10 +133,9 @@ const authService = {
       }
     });
   },
-  refreshToken: async ({refreshToken}) => {
+  refreshToken: async ({ refreshToken }) => {
     return new Promise(async (resolve, reject) => {
       try {
-        
         const { userId } = await verifyRefreshToken(refreshToken);
         const accessToken = await generateAccessToken(userId);
         const refrToken = await signRefreshToken(userId);
@@ -149,40 +148,80 @@ const authService = {
           },
         });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         reject(error);
       }
     });
   },
-  logout: async (refreshToken)=>{
-    return new Promise (async (resolve,reject)=>{
+  logout: async (refreshToken) => {
+    return new Promise(async (resolve, reject) => {
       try {
-        const {userId} = verifyRefreshToken(refreshToken);
-        client.del(userId.toString(), (err,reply)=>{
-          if(err)
-            throw createError.InternalServerError();
+        const { userId } = verifyRefreshToken(refreshToken);
+        client.del(userId.toString(), (err, reply) => {
+          if (err) throw createError.InternalServerError();
 
           resolve({
-            status:200,
-            message:"Logout successfully"
-          })
-        })
-      } catch (error) {
-        reject(error)
-      }
-    })
-  },
-  changePassword: async () => {
-    return new Promise(async (resolve, reject) => {
-      try {
+            status: 200,
+            message: "Logout successfully",
+          });
+        });
       } catch (error) {
         reject(error);
       }
     });
   },
-  forgetPassword: async () => {
+  changePassword: async (changePassword, accountId) => {
     return new Promise(async (resolve, reject) => {
       try {
+        const { oldPassword, newPassword } = changePassword;
+        //check account exist or not
+        const account = await db.Users.findOne({
+          where: {
+            IS_DELETED: false,
+            id: accountId,
+          },
+        });
+
+        const verifyPassword = await bcrypt.compare(
+          oldPassword,
+          account.PASSWORD
+        );
+        if (!verifyPassword) throw createError.BadRequest("Password invalid");
+
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(newPassword, salt);
+
+        await db.Users.update(
+          {
+            PASSWORD: hashPassword,
+          },
+          {
+            where: {
+              IS_DELETED: false,
+              id: accountId,
+            },
+          }
+        );
+        resolve({
+          status: 200,
+          message: "Change password successfully",
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  forgetPassword: async (email) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const exist = await db.Users.findOne({
+          where:{
+            IS_DELETED:false,
+            EMAIL: email,
+          }
+        });
+        if(!exist)
+          throw createError.NotFound("Your email not exist")
       } catch (error) {
         reject(error);
       }

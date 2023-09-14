@@ -86,6 +86,25 @@ const authController = {
       next(error);
     }
   },
+  changePassword: async (req, res, next) => {
+    try {
+      const {
+        oldPassword,
+        newPassword
+      } = req.body;
+      const {id}= req.params;
+      const {
+        status,
+        message,
+      } = await authService.changePassword({
+        oldPassword,
+        newPassword
+      },id);
+      return res.status(status).json(createSuccess(status, message))
+    } catch (error) {
+      next(error);
+    }
+  }
 };
 
 module.exports = authController;
