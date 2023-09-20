@@ -1,0 +1,70 @@
+.pageWrapper {
+  min-height: 100vh;
+}
+.contentArea {
+  flex-grow: 1;
+}
+.wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.card {
+  box-shadow: $card-box-shadow;
+  margin-bottom: 30px;
+}
+
+.circle-box {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 100%;
+  &.lg-box {
+    width: 60px;
+    height: 60px;
+    font-size: 21px;
+    line-height: 60px;
+  }
+}
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin-left: 3rem;
+}
+
+.searchTerm {
+  width: 50%;
+  border: 1px solid #3699ff;
+  border-right: none;
+  padding: 5px;
+  height: 36px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+
+.searchButton {
+  width: 40px;
+  height: 36px;
+  border: 1px solid #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+.button-group .btn {
+  margin: 3px;
+}
+
+.table>:not(:first-child) {
+  border-top: 2px solid;
+}
+.table-borderless>:not(:first-child) {
+  border-top-width: 0;
+}
