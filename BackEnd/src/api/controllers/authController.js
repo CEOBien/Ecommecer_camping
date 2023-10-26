@@ -80,7 +80,12 @@ const authController = {
   },
   changePassword: async (req, res, next) => {
     try {
-      const { oldPassword, newPassword } = req.body;
+      const { oldPassword, newPassword, reNewPassword } = req.body;
+      if (newPassword != reNewPassword) {
+        return res
+          .status(401)
+          .json({ message: "new password and reNew password not same" });
+      }
       const { id } = req.params;
       const { status, message } = await authService.changePassword(
         {

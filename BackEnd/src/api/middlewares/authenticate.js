@@ -35,12 +35,13 @@ module.exports.resetToken = (userId) => {
 };
 
 module.exports.verifyAccessToken = async (req, res, next) => {
+  
   if (!req.headers["authorization"]) return next(createError.Unauthorized);
-
+  
   //get token
   const authHeader = req.headers["authorization"];
   const bearerToken = authHeader.split(" ");
-  const token = bearerToken[1];
+  const token = bearerToken[0];
   //start verify token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) {

@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: NS Checkin REST APIs Document
+  title: Ecommecer docs APIs
   # description: NS Checkin system REST API
   # termsOfService: http://swagger.io/terms/
   # contact:
@@ -10,26 +10,24 @@ info:
   #   url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: http://wns.novasquare.vn:8345
   - url: http://192.168.1.21:8345
-
+  - url: http://localhost:9999
 paths:
   /api/auth/login:
     post:
       tags:
-        - authorization
+        - authenticate
       summary: login
       operationId: login
       requestBody:
-        description: login
+        required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/user"
             example:
-              "USER_NAME": "duy.phan"
-              "USER_PW": "12345678"
-              "remember": true
+              "EMAIL": ""
+              "PASSWORD": ""
       responses:
         "200":
           description: Success
@@ -43,46 +41,22 @@ paths:
         "404":
           description: Not found
           content: {}
-
-  /api/country/getAll:
-    get:
-      tags:
-        - countries
-      summary: get all countries
-      operationId: get all countries
-      responses:
-        "200":
-          description: Success
-          content: {}
-        "400":
-          description: Bad Request
-          content: {}
-        "401":
-          description: UnAuthorized
-          content: {}
-        "404":
-          description: Not found
-          content: {}
-      # security:
-      #   - JWT: []
-
-  /api/country/createCountry:
+    security:
+      - JWT: []
+  /api/auth/registerUser:
     post:
       tags:
-        - countries
-      summary: create country
-      operationId: create country
+        - auth
+      summary: create account
+      operationId: create account
       requestBody:
-        description: create country
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/country"
+              $ref: "#/components/schemas/user"
             example:
-              "NAME": "country 1"
-              "DESC": "country 1"
-              "CD": "C001"
-              "NOTE": "NOTE 1"
+              "EMAIL": "dxhai.20it11@vku.udn.vn"
 
       responses:
         "200":
@@ -99,17 +73,157 @@ paths:
           content: {}
       security:
         - JWT: []
+  /api/auth/registerUser/verifyOtp:
+    post:
+      tags:
+        - auth
+      summary: verify account
+      operationId: verify account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+            example:
+              "EMAIL": ""
+              "OTP": ""
 
-  /api/country/getCountry/{countryId}:
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/auth/refreshToken:
+    post:
+      tags:
+        - auth
+      summary: refeshToken
+      operationId: refeshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+            example:
+              "refeshToken": ""
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+  /api/auth/changePassword:
+    post:
+      tags:
+        - auth
+      summary: change password
+      operationId: change password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+            example:
+              "oldPassword": "aaaa"
+              "newPassword": "adadasdad"
+              "reNewPassword": "adadasdad"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+  /api/menu/createMenu:
+    post:
+      tags:
+        - menu
+      summary: create menu
+      operationId: create menu
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/menu"
+            example:
+              "TITLE": "aaaa"
+              "PARENT_ID": ""
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/menu/getAllMenu:
     get:
       tags:
-        - countries
-      summary: get country details by country ID
-      operationId: get country details by country ID
+        - menu
+      summary: get all menu
+      operationId: get all menu
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/menu/getMenuId/{menuId}:
+    get:
+      tags:
+        - menu
+      summary: get all menu
+      operationId: get all menu
       parameters:
-        - name: countryId
+        - name: menuId
           in: path
-          description: Please provide countryId
+          description: Please provide menuId
           required: true
           schema:
             type: string
@@ -129,32 +243,30 @@ paths:
           content: {}
       security:
         - JWT: []
-
-  /api/country/updateCountry/{countryId}:
+  /api/menu/updateMenu/{menuId}:
     patch:
       tags:
-        - countries
-      summary: update country details by country ID
-      operationId: update country details by country ID
+        - menu
+      summary: update menu
+      operationId: update menu
       parameters:
-        - name: countryId
+        - name: menuId
           in: path
-          description: Please provide countryId
+          description: Please provide menuId
           required: true
           schema:
             type: string
             example: "1"
       requestBody:
-        description: update country
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/country"
+              $ref: "#/components/schemas/menu"
             example:
-              "NAME": "country 2"
-              "DESC": "country 2"
-              "CD": "C002"
-              "NOTE": "NOTE 1"
+              "TITLE": "aaaa"
+              "PARENT_ID": ""
+
       responses:
         "200":
           description: Success
@@ -170,17 +282,16 @@ paths:
           content: {}
       security:
         - JWT: []
-
-  /api/country/deleteCountry/{countryId}:
+  /api/menu/deleteMenu/{menuId}:
     delete:
       tags:
-        - countries
-      summary: delete country by country ID
-      operationId: delete country by country ID
+        - menu
+      summary: delete menu
+      operationId: delete menu
       parameters:
-        - name: countryId
+        - name: menuId
           in: path
-          description: Please provide countryId
+          description: Please provide menuId
           required: true
           schema:
             type: string
@@ -201,4 +312,175 @@ paths:
       security:
         - JWT: []
 
- 
+  /api/gameCard/createGameCard:
+    post:
+      tags:
+        - game card
+      summary: create game card
+      operationId: create game card
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                CONTENT:
+                  type: string
+                TYPE_CARD:
+                  type: string
+              required:
+                - image
+                - CONTENT
+                - TYPE_CARD
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/gameCard/getAllGameCard:
+    get:
+      tags:
+        - game card
+      summary: get gameCard
+      operationId: get gameCard
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/gameCard/getGameCardId/{gameCardId}:
+    get:
+      tags:
+        - game card
+      summary: get gameCard id
+      operationId: get gameCard id
+      parameters:
+        - name: gameCardId
+          in: path
+          description: Please provide gameCard id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/gameCard/updateGameCard/{gameCardId}:
+    patch:
+      tags:
+        - game card
+      summary: update game card
+      operationId: update game card
+      parameters:
+        - name: gameCardId
+          in: path
+          description: Please provide gameCard id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                CONTENT:
+                  type: string
+                TYPE_CARD:
+                  type: string
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/gameCard/deleteGameCard/{gameCardId}:
+    delete:
+      tags:
+        - game card
+      summary: delete gameCard id
+      operationId: delete gameCard id
+      parameters:
+        - name: gameCardId
+          in: path
+          description: Please provide gameCard id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+components:
+  schemas:
+  securitySchemes:
+    JWT:
+      type: apiKey
+      in: header
+      name: Authorization

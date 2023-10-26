@@ -14,6 +14,8 @@ let initWebRoutes = (app) => {
   // );
 
   router.use("/auth", require("./authRouter.js"));
+  router.use("/menu", require("./menuRouer.js"));
+  router.use("/gameCard", require("./gameCardRouter.js"));
   router.get("/", (req, res) => {
     res.send("hello there !");
   });

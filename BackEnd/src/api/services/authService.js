@@ -110,9 +110,11 @@ const authService = {
             IS_DELETED: false,
           },
         });
+        
         //check code if exist or not
-        if (!exist) throw createError.NotFound("Email not register");
-        const isPassword = await bcrypt.compare(PASSWORD, exist.PASSWORD);
+        if (!exist) throw createError.NotFound("Email not register"); 
+        const isPassword = await bcrypt.compare(PASSWORD,exist.PASSWORD);
+        console.log(isPassword)
         //if password incorrect then show error
         if (!isPassword)
           throw createError.Unauthorized("Email or password incorrect");
