@@ -10,6 +10,7 @@ info:
   #   url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
+  - url: https://swagger-ecommerce-camping.onrender.com
   - url: http://192.168.1.10:9999
   - url: http://localhost:9999
 paths:
