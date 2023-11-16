@@ -22,12 +22,12 @@ var app = expressAppConfig.getApp()
 // Initialize the Swagger middleware
 http.createServer(app).listen(serverPort, function () {
   console.log(
-    "Your server is listening on port %d (http://um.novasquare.vn:%d)",
+    "Your server is listening on port %d (http://192.168.1.10:%d)",
     serverPort,
     serverPort
   )
   console.log(
-    "Swagger-ui is available on http://um.novasquare.vn:%d/docs",
+    "Swagger-ui is available on http://192.168.1.10:%d/docs",
     serverPort
   )
 })

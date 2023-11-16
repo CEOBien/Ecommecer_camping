@@ -9,13 +9,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Users.belongsTo(models.Profiles, {
+        foreignKey: "PROFILE_ID"
+      });
     }
   }
   Users.init(
     {
       EMAIL: {
         type: DataTypes.STRING,
-        unique:true,
+        unique: true,
         allowNull: false,
       },
       PASSWORD: {

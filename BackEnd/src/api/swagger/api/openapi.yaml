@@ -10,7 +10,7 @@ info:
   #   url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
 servers:
-  - url: http://192.168.1.21:8345
+  - url: http://192.168.1.10:9999
   - url: http://localhost:9999
 paths:
   /api/auth/login:
@@ -476,7 +476,1001 @@ paths:
           content: {}
       security:
         - JWT: []
+  /api/category/createCategory:
+    post:
+      tags:
+        - Category
+      summary: create Category
+      operationId: create Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+            example:
+              "TITLE": "aaaa"
+              "PARENT_ID": ""
+              "CD": "aaaa"
 
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/category/getAllCategory:
+    get:
+      tags:
+        - Category
+      summary: get all Category
+      operationId: get all Category
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/category/getCategoryId/{CategoryId}:
+    get:
+      tags:
+        - Category
+      summary: get  Category id
+      operationId: get Category id
+      parameters:
+        - name: CategoryId
+          in: path
+          description: Please provide CategoryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/category/updateCategory/{CategoryId}:
+    patch:
+      tags:
+        - Category
+      summary: update Category
+      operationId: update Category
+      parameters:
+        - name: CategoryId
+          in: path
+          description: Please provide CategoryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Category"
+            example:
+              "TITLE": "aaaa"
+              "PARENT_ID": ""
+              "CD": "aaaa"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/category/deleteCategory/{CategoryId}:
+    delete:
+      tags:
+        - Category
+      summary: delete Category
+      operationId: delete Category
+      parameters:
+        - name: CategoryId
+          in: path
+          description: Please provide CategoryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/profile/createProfile:
+    post:
+      tags:
+        - Profile
+      summary: create Profile
+      operationId: create Profile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                FIRST_NAME:
+                  type: string
+                LAST_NAME:
+                  type: string
+                PHONE_NUMBER:
+                  type: integer
+                HOMETOWN:
+                  type: string
+              required:
+                - image
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/profile/getAllProfile:
+    get:
+      tags:
+        - Profile
+      summary: get Profile
+      operationId: get Profile
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/profile/getProfileId/{ProfileId}:
+    get:
+      tags:
+        - Profile
+      summary: get Profile id
+      operationId: get Profile id
+      parameters:
+        - name: ProfileId
+          in: path
+          description: Please provide Profile id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/profile/updateProfile/{ProfileId}:
+    patch:
+      tags:
+        - Profile
+      summary: update Profile
+      operationId: update Profile
+      parameters:
+        - name: ProfileId
+          in: path
+          description: Please provide Profile id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                FIRST_NAME:
+                  type: string
+                LAST_NAME:
+                  type: string
+                PHONE_NUMBER:
+                  type: integer
+                HOMETOWN:
+                  type: string
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/profile/deleteProfile/{ProfileId}:
+    delete:
+      tags:
+        - Profile
+      summary: delete Profile id
+      operationId: delete Profile id
+      parameters:
+        - name: ProfileId
+          in: path
+          description: Please provide Profile id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/addressUser/createAddressUser:
+    post:
+      tags:
+        - address user
+      summary: create addressUser
+      operationId: create addressUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addressUser"
+            example:
+              "STREET_ADDRESS": "212 Mai Dang Chon"
+              "CITY": "Da Nang"
+              "STATE": "Da Nang"
+              "ZIP_CODE": "50000"
+              "PROFILE_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/addressUser/getAllAddressUser:
+    get:
+      tags:
+        - address user
+      summary: get all addressUser
+      operationId: get all addressUser
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/addressUser/getAddressUserId/{addressUserId}:
+    get:
+      tags:
+        - address user
+      summary: get  addressUser id
+      operationId: get addressUser id
+      parameters:
+        - name: addressUserId
+          in: path
+          description: Please provide addressUserId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/addressUser/updateAddressUser/{addressUserId}:
+    patch:
+      tags:
+        - address user
+      summary: update addressUser
+      operationId: update addressUser
+      parameters:
+        - name: addressUserId
+          in: path
+          description: Please provide addressUserId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addressUser"
+            example:
+              "STREET_ADDRESS": "212 Mai Dang Chon"
+              "CITY": "Da Nang"
+              "STATE": "Da Nang"
+              "ZIP_CODE": "50000"
+              "PROFILE_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/addressUser/deleteAddressUser/{addressUserId}:
+    delete:
+      tags:
+        - address user
+      summary: delete addressUser
+      operationId: delete addressUser
+      parameters:
+        - name: addressUserId
+          in: path
+          description: Please provide addressUserId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/blog/createBlog:
+    post:
+      tags:
+        - Blog
+      summary: create Blog
+      operationId: create Blog
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                TITLE:
+                  type: string
+                DESC:
+                  type: string
+              required:
+                - TITLE
+                - DESC
+                - image
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/blog/getAllBlog:
+    get:
+      tags:
+        - Blog
+      summary: get Blog
+      operationId: get Blog
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/blog/getBlogId/{BlogId}:
+    get:
+      tags:
+        - Blog
+      summary: get Blog id
+      operationId: get Blog id
+      parameters:
+        - name: BlogId
+          in: path
+          description: Please provide Blog id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/blog/updateBlog/{BlogId}:
+    patch:
+      tags:
+        - Blog
+      summary: update Blog
+      operationId: update Blog
+      parameters:
+        - name: BlogId
+          in: path
+          description: Please provide Blog id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                TITLE:
+                  type: string
+                DESC:
+                  type: string
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/blog/deleteBlog/{BlogId}:
+    delete:
+      tags:
+        - Blog
+      summary: delete Blog id
+      operationId: delete Blog id
+      parameters:
+        - name: BlogId
+          in: path
+          description: Please provide Blog id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/commentBlog/likeBlog:
+    post:
+      tags:
+        - commentBlog
+      summary: like Blog
+      operationId: like Blog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/likeBlog"
+            example:
+              "LIKE": "true"
+              "BLOG_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/commentBlog/createCommentBlog:
+    post:
+      tags:
+        - commentBlog
+      summary: create commentBlog
+      operationId: create commentBlog
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/commentBlog"
+            example:
+              "CONTENT": "aaaa"
+              "BLOG_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/commentBlog/getCommentBlogId/{commentBlogId}:
+    get:
+      tags:
+        - commentBlog
+      summary: get  commentBlog id
+      operationId: get commentBlog id
+      parameters:
+        - name: commentBlogId
+          in: path
+          description: Please provide commentBlogId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/commentBlog/updateCommentBlog/{commentBlogId}:
+    patch:
+      tags:
+        - commentBlog
+      summary: update commentBlog
+      operationId: update commentBlog
+      parameters:
+        - name: commentBlogId
+          in: path
+          description: Please provide commentBlogId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/commentBlog"
+            example:
+              "CONTENT": "aaaa"
+              "BLOG_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/commentBlog/deleteCommentBlog/{commentBlogId}:
+    delete:
+      tags:
+        - commentBlog
+      summary: delete commentBlog
+      operationId: delete commentBlog
+      parameters:
+        - name: commentBlogId
+          in: path
+          description: Please provide commentBlogId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  #product
+  /api/product/createProduct:
+    post:
+      tags:
+        - Product
+      summary: create Product
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                NAME:
+                  type: string
+                PRICE:
+                  type: number
+                STOCK:
+                  type: number
+                CD:
+                  type: string
+                CATEGORY_ID:
+                  type: number
+                PRODUCT_ATTRIBUTE:
+                  type: array
+                  items:
+                    type: string
+
+              example:
+                image: "binary-data"
+                NAME: "Product Name"
+                PRICE: 20.0
+                STOCK: 100
+                PRODUCT_ATTRIBUTE:
+                  - key: "Color"
+                    value: "Blue"
+                  - key: "Size"
+                    value: "Medium"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/product/getAllProduct:
+    get:
+      tags:
+        - Product
+      summary: get Product
+      operationId: get Product
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/product/getProductId/{ProductId}:
+    get:
+      tags:
+        - Product
+      summary: get Product id
+      operationId: get Product id
+      parameters:
+        - name: ProductId
+          in: path
+          description: Please provide Product id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/product/updateProduct/{ProductId}:
+    patch:
+      tags:
+        - Product
+      summary: update Product
+      operationId: update Product
+      parameters:
+        - name: ProductId
+          in: path
+          description: Please provide Product id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                NAME:
+                  type: string
+                PRICE:
+                  type: number
+                STOCK:
+                  type: number
+                CATEGORY_ID:
+                  type: number
+                CD:
+                  type: string
+                PRODUCT_ATTRIBUTE:
+                  type: array
+            example:
+              pdfFile: [binary-data]
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/product/deleteProduct/{ProductId}:
+    delete:
+      tags:
+        - Product
+      summary: delete Product id
+      operationId: delete Product id
+      parameters:
+        - name: ProductId
+          in: path
+          description: Please provide Product id
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
 components:
   schemas:
   securitySchemes:

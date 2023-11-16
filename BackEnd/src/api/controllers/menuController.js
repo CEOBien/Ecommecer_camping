@@ -5,7 +5,6 @@ const createError = require("../middlewares/handle_error");
 const menuController = {
   createMenu: async (req, res, next) => {
     try {
-      console.log(req?.user?.userId);
       const { TITLE, PARENT_ID } = req.body;
       const { status, message } = await menuService.createMenu(
         {

@@ -28,9 +28,87 @@ const gameCardValidate = (data) => {
 
   return schema.validate(data);
 };
+const menuValidate = (data) => {
+  const schema = Joi.object({
+    TITLE: Joi.string().label("TITLE"),
+    PARENT_ID: Joi.number().label("PARENT_ID"),
+  });
+
+  return schema.validate(data);
+};
+const categoryValidate = (data) => {
+  const schema = Joi.object({
+    TITLE: Joi.string().label("TITLE"),
+    PARENT_ID: Joi.number().label("PARENT_ID"),
+    CD: Joi.string().label("CD"),
+  });
+
+  return schema.validate(data);
+};
+const profileValidate = (data) => {
+  const schema = Joi.object({
+    FIRST_NAME: Joi.string().label("FIRST_NAME"),
+    LAST_NAME: Joi.string().label("LAST_NAME"),
+    IMAGE_PATH: Joi.string().label("IMAGE_PATH"),
+    CLOUDY_IMAGE_ID: Joi.string().label("CLOUDY_IMAGE_ID"),
+    HOMETOWN: Joi.string().label("HOMETOWN"),
+    PHONE_NUMBER: Joi.number().label("PHONE_NUMBER"),
+  });
+
+  return schema.validate(data);
+};
+
+const addressUserValidate = (data) => {
+  const schema = Joi.object({
+    STREET_ADDRESS: Joi.string().label("STREET_ADDRESS"),
+    CITY: Joi.string().label("CITY"),
+    STATE: Joi.string().label("STATE"),
+    ZIP_CODE: Joi.number().label("ZIP_CODE"),
+    PROFILE_ID: Joi.number().label("PROFILE_ID"),
+  });
+
+  return schema.validate(data);
+};
+const blogValidate = (data) => {
+  const schema = Joi.object({
+    TITLE: Joi.string().label("TITLE"),
+    DESC: Joi.string().label("DESC"),
+    IMAGE_PATH: Joi.string().label("IMAGE_PATH"),
+    CLOUDY_IMAGE_ID: Joi.string().label("CLOUDY_IMAGE_ID"),
+    USER_ID: Joi.number().label("USER_ID"),
+  });
+
+  return schema.validate(data);
+};
+const commentBlogValidate = (data) => {
+  const schema = Joi.object({
+    CONTENT: Joi.string().label("CONTENT"),
+    BLOG_ID: Joi.number().label("BLOG_ID"),
+  });
+
+  return schema.validate(data);
+};
+const productValidate = (data) => {
+  const schema = Joi.object({
+    NAME: Joi.string().label("NAME"),
+    PRICE: Joi.number().label("PRICE"),
+    STOCK: Joi.number().label("STOCK"),
+    IMAGE_PATH: Joi.string().label("IMAGE_PATH"),
+    CLOUDY_IMAGE_ID: Joi.string().label("CLOUDY_IMAGE_ID"),
+  });
+
+  return schema.validate(data);
+};
 
 module.exports = {
   registerUserValidate,
   changePasswordValidate,
   gameCardValidate,
+  menuValidate,
+  categoryValidate,
+  profileValidate,
+  addressUserValidate,
+  blogValidate,
+  commentBlogValidate,
+  productValidate,
 };

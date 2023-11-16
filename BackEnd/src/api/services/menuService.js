@@ -26,6 +26,7 @@ const menuService = {
         const getMenu = await Menus.findOne({
           where: {
             id: id,
+            IS_DELETED: false,
           },
         });
         resolve({
@@ -61,14 +62,14 @@ const menuService = {
       try {
         const updateMenu = await Menus.update(
           {
+            ...menu,
+            ...logUpdate(updateBy),
+          },
+          {
             where: {
               id: id,
               IS_DELETED: false,
             },
-          },
-          {
-            ...menu,
-            ...logUpdate(updateBy),
           }
         );
         resolve({
@@ -87,14 +88,14 @@ const menuService = {
       try {
         const deleteMenu = await Menus.update(
           {
+            ...logUpdate(updateBy),
+            IS_DELETED: true,
+          },
+          {
             where: {
               id: id,
               IS_DELETED: false,
             },
-          },
-          {
-            ...logUpdate(updateBy),
-            IS_DELETED: true,
           }
         );
         resolve({

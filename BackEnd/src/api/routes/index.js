@@ -16,6 +16,12 @@ let initWebRoutes = (app) => {
   router.use("/auth", require("./authRouter.js"));
   router.use("/menu", require("./menuRouer.js"));
   router.use("/gameCard", require("./gameCardRouter.js"));
+  router.use("/category", require("./categoryRouter.js"));
+  router.use("/profile", require("./profileRouter.js"));
+  router.use("/addressUser", require("./addressUserRouter.js"));
+  router.use("/blog", require("./blogRouter.js"));
+  router.use("/commentBlog", require("./commentBlogRouter.js"));
+  router.use("/product", require("./productRouter.js"));
   router.get("/", (req, res) => {
     res.send("hello there !");
   });

@@ -27,6 +27,7 @@ const gameCardService = {
         const getGameCard = await GameCards.findOne({
           where: {
             id: id,
+            IS_DELETED: false,
           },
         });
         resolve({
@@ -96,9 +97,9 @@ const gameCardService = {
     return new Promise(async (resolve, reject) => {
       try {
         const deleteGameCard = await GameCards.update(
-          { 
-            IS_DELETED:true,
-            ...logUpdate(updateBy) 
+          {
+            IS_DELETED: true,
+            ...logUpdate(updateBy),
           },
           {
             where: {
