@@ -16,7 +16,7 @@ const gameCardController = {
           IMAGE_PATH,
           CLOUDY_IMAGE_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -62,7 +62,7 @@ const gameCardController = {
           CLOUDY_IMAGE_ID,
         },
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -78,7 +78,7 @@ const gameCardController = {
       }
       const { status, message } = await gameCardService.deleteGameCard(
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {

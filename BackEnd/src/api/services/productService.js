@@ -25,7 +25,10 @@ const productService = {
 
         // check code if exist or not
         if (exist) {
-          throw createError.BadRequest("Product existed!");
+          resolve({
+            status: 401,
+            message: "Badrequest",
+          });
         }
         const createProduct = await Products.create({
           NAME,
@@ -60,7 +63,15 @@ const productService = {
     return new Promise(async (resolve, reject) => {
       try {
         const getProduct = await Products.findOne({
-          attributes: ["id", "NAME", "PRICE", "STOCK", "CATEGORY_ID", "CD"],
+          attributes: [
+            "id",
+            "NAME",
+            "PRICE",
+            "STOCK",
+            "CATEGORY_ID",
+            "CD",
+            "IMAGE_PATH",
+          ],
           where: {
             id: id,
             IS_DELETED: false,
@@ -96,7 +107,15 @@ const productService = {
     return new Promise(async (resolve, reject) => {
       try {
         const listProduct = await Products.findAll({
-          attributes: ["id", "NAME", "PRICE", "STOCK", "CATEGORY_ID", "CD"],
+          attributes: [
+            "id",
+            "NAME",
+            "PRICE",
+            "STOCK",
+            "CATEGORY_ID",
+            "CD",
+            "IMAGE_PATH",
+          ],
           where: {
             IS_DELETED: false,
           },
@@ -161,7 +180,13 @@ const productService = {
         }
         const updateProduct = await Products.update(
           {
-            ...Product,
+            NAME,
+            PRICE,
+            STOCK,
+            CD,
+            IMAGE_PATH,
+            CATEGORY_ID,
+            CLOUDY_IMAGE_ID,
             ...logUpdate(updateBy),
           },
           {
@@ -182,10 +207,36 @@ const productService = {
       }
     });
   },
+  updateAttributeProduct: async (Product, id, updateBy) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await ProductAttributes.update(
+          {
+            ...Product,
+            ...logUpdate(updateBy),
+          },
+          {
+            where: {
+              id: id,
+              IS_DELETED: false,
+            },
+          }
+        );
+        resolve({
+          status: response ? 200 : 400,
+          message: response
+            ? "Update successfully"
+            : "Error while update attribute product",
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
   deleteProduct: async (id, updateBy) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const deleteProduct = await Products.update(
+        const [response] = await Products.update(
           {
             IS_DELETED: true,
             ...logUpdate(updateBy),
@@ -197,12 +248,29 @@ const productService = {
             },
           }
         );
-        resolve({
-          status: deleteProduct ? 200 : 404,
-          message: deleteProduct
-            ? "Delete Product successfully!"
-            : "Error while delete Product",
-        });
+        await ProductAttributes.update(
+          {
+            PRODUCT_ID: null,
+            ...logUpdate(updateBy),
+          },
+          {
+            where: {
+              PRODUCT_ID: id,
+              IS_DELETED: false,
+            },
+          }
+        );
+        if (!response) {
+          resolve({
+            status: 404,
+            message: "product doesn't exist !",
+          });
+        } else {
+          resolve({
+            status: 200,
+            message: "Delete product successfully !",
+          });
+        }
       } catch (error) {
         reject(error);
       }

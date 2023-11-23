@@ -22,6 +22,7 @@ let initWebRoutes = (app) => {
   router.use("/blog", require("./blogRouter.js"));
   router.use("/commentBlog", require("./commentBlogRouter.js"));
   router.use("/product", require("./productRouter.js"));
+  router.use("/cart", require("./cartRouter.js"));
   router.get("/", (req, res) => {
     res.send("hello there !");
   });

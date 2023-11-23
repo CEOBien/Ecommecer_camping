@@ -15,11 +15,11 @@ const gameCardController = {
           LAST_NAME,
           PHONE_NUMBER,
           HOMETOWN,
-          USER_ID: req?.user?.userId,
+          USER_ID: req?.payload?.userId,
           IMAGE_PATH,
           CLOUDY_IMAGE_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -67,7 +67,7 @@ const gameCardController = {
           CLOUDY_IMAGE_ID,
         },
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -83,7 +83,7 @@ const gameCardController = {
       }
       const { status, message } = await profileService.deleteProfile(
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {

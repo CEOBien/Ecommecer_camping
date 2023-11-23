@@ -11,7 +11,7 @@ const commentBlogController = {
           CONTENT,
           BLOG_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -66,7 +66,7 @@ const commentBlogController = {
       const { LIKE, BLOG_ID } = req.body;
       const { status, message } = await commentBlogService.likeBLog(
         { LIKE, BLOG_ID },
-        req?.user?.userId
+        req?.payload?.userId
       );
       return res.status(status).json(createSuccess(status, message));
     } catch (error) {

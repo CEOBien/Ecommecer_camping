@@ -14,7 +14,7 @@ const AddressUserController = {
           ZIP_CODE,
           PROFILE_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {

@@ -11,7 +11,7 @@ const menuController = {
           TITLE,
           PARENT_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {

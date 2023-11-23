@@ -22,7 +22,7 @@ const productController = {
           CLOUDY_IMAGE_ID,
           LIST_ATTRIBUTES,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -74,7 +74,7 @@ const productController = {
           LIST_ATTRIBUTES,
         },
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -90,7 +90,7 @@ const productController = {
       }
       const { status, message } = await ProductService.deleteProduct(
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {

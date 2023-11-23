@@ -16,7 +16,7 @@ const blogController = {
           IMAGE_PATH,
           CLOUDY_IMAGE_ID,
         },
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -59,7 +59,7 @@ const blogController = {
           CLOUDY_IMAGE_ID,
         },
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
@@ -75,7 +75,7 @@ const blogController = {
       }
       const { status, message } = await BlogService.deleteBlog(
         id,
-        req?.user?.userId
+        req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
