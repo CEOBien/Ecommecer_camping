@@ -12,9 +12,18 @@ router.get(
   cartController.getAllProductCart
 );
 router.patch(
-  "/updateQuantity",
+  "/updateQuantity/:id",
   verifyAccessToken,
   cartController.updateQuantity
 );
-
+router.delete(
+  "/deleteProductCart/:id",
+  verifyAccessToken,
+  cartController.deleteProductCart
+);
+router.get(
+  "/CountProductCart",
+  verifyAccessToken,
+  cartController.CountProductCart
+);
 module.exports = router;

@@ -1571,6 +1571,297 @@ paths:
           content: {}
       security:
         - JWT: []
+  /api/cart/deleteProductCart/{productId}:
+    delete:
+      tags:
+        - cart
+      summary: delete product into cart
+      operationId: delete product into cart
+      parameters:
+        - name: productId
+          in: path
+          description: Please provide productId
+          required: true
+          schema:
+            type: string
+            example: "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/cart/CountProductCart:
+    get:
+      tags:
+        - cart
+      summary: get quantity product into cart
+      operationId: get quantity product into cart
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  #checkout
+  /api/checkout/orders/{orderID}/capture:
+    get:
+      tags:
+        - checkout
+      summary: checkout
+      operationId: checkout
+      parameters:
+        - name: orderID
+          in: path
+          description: Please provide orderID
+          required: true
+          schema:
+            type: string
+            example: "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/checkout/orders:
+    post:
+      tags:
+        - checkout
+      summary: create checkout
+      operationId: create checkout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/commentBlog"
+            example:
+              "MONEY": "100"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  #rate product
+  /api/rateProduct/createRateProduct:
+    post:
+      tags:
+        - RateProduct
+      summary: create RateProduct
+      operationId: create RateProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RateProduct"
+            example:
+              "RATE": "5"
+              "PRODUCT_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/rateProduct/getAllRateProduct:
+    get:
+      tags:
+        - RateProduct
+      summary: get all RateProduct
+      operationId: get all RateProduct
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/rateProduct/getRateProductId/{RateProductId}:
+    get:
+      tags:
+        - RateProduct
+      summary: get id RateProduct
+      operationId: get id RateProduct
+      parameters:
+        - name: RateProductId
+          in: path
+          description: Please provide RateProductId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/rateProduct/updateRateProduct/{RateProductId}:
+    patch:
+      tags:
+        - RateProduct
+      summary: update RateProduct
+      operationId: update RateProduct
+      parameters:
+        - name: RateProductId
+          in: path
+          description: Please provide RateProductId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RateProduct"
+            example:
+              "RATE": "5"
+              "PRODUCT_ID": "1"
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/rateProduct/deleteRateProduct/{RateProductId}:
+    delete:
+      tags:
+        - RateProduct
+      summary: delete RateProduct
+      operationId: delete RateProduct
+      parameters:
+        - name: RateProductId
+          in: path
+          description: Please provide RateProductId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/rateProduct/avgRateProduct:
+    post:
+      tags:
+        - RateProduct
+      summary: get avg RateProduct
+      operationId: get avg RateProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RateProduct"
+            example:
+              "PRODUCT_ID": "5"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
 components:
   schemas:
   securitySchemes:

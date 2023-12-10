@@ -40,6 +40,28 @@ const cartController = {
       next(error);
     }
   },
+  deleteProductCart: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { status, message } = await cartService.deleteProductCart(
+        id,
+        req?.payload?.userId
+      );
+      res.status(status).json(createSuccess(status, message));
+    } catch (error) {
+      next(error);
+    }
+  },
+  CountProductCart: async (req, res, next) => {
+    try {
+      const { status, message, elements } = await cartService.CountProductCart(
+        req?.payload?.userId
+      );
+      res.status(status).json(createSuccess(status, message,elements));
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 module.exports = cartController;
