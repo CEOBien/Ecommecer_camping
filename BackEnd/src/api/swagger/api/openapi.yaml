@@ -1310,11 +1310,9 @@ paths:
                   type: string
                 CATEGORY_ID:
                   type: number
-                PRODUCT_ATTRIBUTE:
-                  type: array
-                  items:
-                    type: string
-
+                DESC:
+                  type: string
+                  
               example:
                 image: "binary-data"
                 NAME: "Product Name"
@@ -1424,8 +1422,8 @@ paths:
                   type: number
                 CD:
                   type: string
-                PRODUCT_ATTRIBUTE:
-                  type: array
+                DESC:
+                  type: string
             example:
               pdfFile: [binary-data]
       responses:
