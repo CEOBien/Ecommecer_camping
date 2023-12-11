@@ -94,68 +94,11 @@ const blogService = {
     return new Promise(async (resolve, reject) => {
       try {
         const listBlog = await Blogs.findAll({
+          attributes:["id",'TITLE','IMAGE_PATH',"DESC"],
           where: {
             IS_DELETED: false,
           },
-          include: [
-            {
-              model: Users,
-              attributes: ["id", "EMAIL"],
-              where: {
-                IS_DELETED: false,
-              },
-            },
-            {
-              model: CommentBlogs,
-              attributes: ["CONTENT"],
-              where: {
-                IS_DELETED: false,
-              },
-              include: [
-                {
-                  model: Users,
-                  attributes: ["id", "EMAIL"],
-                  where: {
-                    IS_DELETED: false,
-                  },
-                  include: [
-                    {
-                      model: Profiles,
-                      attributes: ["LAST_NAME", "FIRST_NAME"],
-                      where: {
-                        IS_DELETED: false,
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              model: LikeBlogs,
-              attributes: ["LIKE"],
-              where: {
-                IS_DELETED: false,
-              },
-              include: [
-                {
-                  model: Users,
-                  attributes: ["EMAIL"],
-                  where: {
-                    IS_DELETED: false,
-                  },
-                  include: [
-                    {
-                      model: Profiles,
-                      attributes: ["LAST_NAME", "FIRST_NAME"],
-                      where: {
-                        IS_DELETED: false,
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
+          
         });
         resolve({
           status: 200,
