@@ -32,53 +32,12 @@ const blogService = {
     return new Promise(async (resolve, reject) => {
       try {
         const getBlog = await Blogs.findOne({
+          attributes:["id",'TITLE','IMAGE_PATH',"DESC","CREATED_DATE"],
           where: {
             id: id,
             IS_DELETED: false,
           },
-          include: [
-            {
-              model: Users,
-              attributes: ["EMAIL"],
-              where: {
-                IS_DELETED: false,
-              },
-            },
-            {
-              model: CommentBlogs,
-              attributes: ["CONTENT"],
-              where: {
-                IS_DELETED: false,
-              },
-
-              include: [
-                {
-                  model: Users,
-                  attributes: ["EMAIL"],
-                  where: {
-                    IS_DELETED: false,
-                  },
-                },
-              ],
-            },
-            {
-              model: LikeBlogs,
-              attributes: ["LIKE"],
-              where: {
-                IS_DELETED: false,
-              },
-
-              include: [
-                {
-                  model: Users,
-                  attributes: ["EMAIL"],
-                  where: {
-                    IS_DELETED: false,
-                  },
-                },
-              ],
-            },
-          ],
+          
         });
         resolve({
           status: 200,
@@ -94,7 +53,7 @@ const blogService = {
     return new Promise(async (resolve, reject) => {
       try {
         const listBlog = await Blogs.findAll({
-          attributes:["id",'TITLE','IMAGE_PATH',"DESC","CREATE_DATE"],
+          attributes:["id",'TITLE','IMAGE_PATH',"DESC","CREATED_DATE"],
           where: {
             IS_DELETED: false,
           },
