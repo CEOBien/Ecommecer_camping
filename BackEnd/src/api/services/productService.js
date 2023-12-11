@@ -14,7 +14,7 @@ const productService = {
           IMAGE_PATH,
           CATEGORY_ID,
           CLOUDY_IMAGE_ID,
-          LIST_ATTRIBUTES,
+          DESC,
         } = Product;
         const exist = await Products.findOne({
           where: {
@@ -27,7 +27,7 @@ const productService = {
         if (exist) {
           resolve({
             status: 401,
-            message: "Badrequest",
+            message: "Prodcut already existed!",
           });
         }
         const createProduct = await Products.create({
@@ -38,16 +38,10 @@ const productService = {
           IMAGE_PATH,
           CATEGORY_ID,
           CLOUDY_IMAGE_ID,
+          DESC,
           ...logCreate(createBy),
         });
-        const PRODUCT_ID = createProduct.id;
-        LIST_ATTRIBUTES.forEach(async (ele) => {
-          await ProductAttributes.create({
-            PRODUCT_ID: PRODUCT_ID,
-            KEY: ele.key,
-            VALUE: ele.value,
-          });
-        });
+
         resolve({
           status: createProduct ? 200 : 404,
           message: createProduct
@@ -84,13 +78,6 @@ const productService = {
                 IS_DELETED: false,
               },
             },
-            {
-              model: ProductAttributes,
-              attributes: ["KEY", "VALUE"],
-              where: {
-                IS_DELETED: false,
-              },
-            },
           ],
         });
         resolve({
@@ -123,13 +110,6 @@ const productService = {
             {
               model: Categorys,
               attributes: ["TITLE"],
-              where: {
-                IS_DELETED: false,
-              },
-            },
-            {
-              model: ProductAttributes,
-              attributes: ["KEY", "VALUE"],
               where: {
                 IS_DELETED: false,
               },
