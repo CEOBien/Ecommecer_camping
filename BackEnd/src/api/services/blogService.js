@@ -94,7 +94,7 @@ const blogService = {
     return new Promise(async (resolve, reject) => {
       try {
         const listBlog = await Blogs.findAll({
-          attributes:["id",'TITLE','IMAGE_PATH',"DESC"],
+          attributes:["id",'TITLE','IMAGE_PATH',"DESC","CREATE_DATE"],
           where: {
             IS_DELETED: false,
           },
