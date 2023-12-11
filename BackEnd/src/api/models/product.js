@@ -12,10 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       Products.belongsTo(models.Categorys, {
         foreignKey: "CATEGORY_ID",
       });
-      Products.hasMany(models.ProductAttributes, {
-        foreignKey: "PRODUCT_ID",
-        sourceKey: "id",
-      });
+      
     }
   }
   Products.init(
@@ -38,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       CLOUDY_IMAGE_ID: {
         type: DataTypes.STRING,
+        allowNull: true,
+      },
+      DESC: {
+        type: DataTypes.TEXT,
         allowNull: true,
       },
       CD: DataTypes.STRING,

@@ -8,9 +8,8 @@ const productController = {
       const filename = req.file;
       const IMAGE_PATH = filename.path;
       const CLOUDY_IMAGE_ID = filename.filename;
-      const { NAME, PRICE, STOCK, CD, PRODUCT_ATTRIBUTE, CATEGORY_ID } =
+      const { NAME, PRICE, STOCK, CD, DESC, CATEGORY_ID } =
         req.body;
-      const LIST_ATTRIBUTES = JSON.parse(PRODUCT_ATTRIBUTE);
       const { status, message } = await ProductService.createProduct(
         {
           NAME,
@@ -20,7 +19,7 @@ const productController = {
           IMAGE_PATH,
           CATEGORY_ID,
           CLOUDY_IMAGE_ID,
-          LIST_ATTRIBUTES,
+          DESC,
         },
         req?.payload?.userId
       );
@@ -59,9 +58,8 @@ const productController = {
       const filename = req.file;
       const IMAGE_PATH = filename.path;
       const CLOUDY_IMAGE_ID = filename.filename;
-      const { NAME, PRICE, STOCK, CD, PRODUCT_ATTRIBUTE, CATEGORY_ID } =
-        req.body;
-      const LIST_ATTRIBUTES = JSON.parse(PRODUCT_ATTRIBUTE);
+      const { NAME, PRICE, STOCK, CD, CATEGORY_ID, DESC } = req.body;
+
       const { status, message } = await ProductService.updateProduct(
         {
           NAME,
@@ -71,7 +69,7 @@ const productController = {
           IMAGE_PATH,
           CLOUDY_IMAGE_ID,
           CATEGORY_ID,
-          LIST_ATTRIBUTES,
+          DESC,
         },
         id,
         req?.payload?.userId
