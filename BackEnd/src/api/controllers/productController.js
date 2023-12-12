@@ -8,8 +8,7 @@ const productController = {
       const filename = req.file;
       const IMAGE_PATH = filename.path;
       const CLOUDY_IMAGE_ID = filename.filename;
-      const { NAME, PRICE, STOCK, CD, DESC, CATEGORY_ID } =
-        req.body;
+      const { NAME, PRICE, STOCK, CD, DESC, CATEGORY_ID } = req.body;
       const { status, message } = await ProductService.createProduct(
         {
           NAME,

@@ -10,7 +10,25 @@ const {
   blogValidate,
   commentBlogValidate,
   productValidate,
+  discountTypeValidate,
+  discountValidate,
 } = require("../validations/validation");
+
+module.exports.validDiscount = (req, res, next) => {
+  const { error } = discountValidate(req.body);
+  if (error) {
+    throw createError.BadRequest(error.details[0].message);
+  }
+  next();
+};
+
+module.exports.validDiscountType = (req, res, next) => {
+  const { error } = discountTypeValidate(req.body);
+  if (error) {
+    throw createError.BadRequest(error.details[0].message);
+  }
+  next();
+};
 
 module.exports.validProduct = (req, res, next) => {
   const filename = req.file;

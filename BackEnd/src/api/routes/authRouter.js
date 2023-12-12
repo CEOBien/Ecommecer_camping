@@ -7,19 +7,14 @@ router.post("/registerUser", validAuth, authController.registerUser);
 router.post("/registerUser/verifyOtp", authController.verifyOtp);
 router.post("/login", validAuth, authController.login);
 router.post("/refreshToken", authController.refreshToken);
-router.delete("/logout", authController.logout);
+router.delete("/logout", (verifyAccessToken, authController.logout));
 router.patch(
   "/changePassword/:id",
+  verifyAccessToken,
   validChangePassword,
   authController.changePassword
 );
-router.patch(
-  "/forgetPassword",
-  authController.forgetPassword
-);
-router.patch(
-  "/resetPassword/:token",
-  authController.resetPassword
-);
+router.patch("/forgetPassword", authController.forgetPassword);
+router.patch("/resetPassword/:token", authController.resetPassword);
 
 module.exports = router;

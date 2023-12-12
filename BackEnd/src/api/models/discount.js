@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Discounts.belongsTo(models.DiscountTypes,{
+        foreignKey:"DISCOUNT_TYPE_ID"
+      })
     }
   }
   Discounts.init(
@@ -24,17 +27,15 @@ module.exports = (sequelize, DataTypes) => {
       END_DATE: {
         type: DataTypes.DATE,
         allowNull: false,
-
       },
-      USAGE_LIMIT : {
+      USAGE_LIMIT: {
         type: DataTypes.INTEGER,
         allowNull: false,
-
       },
       IS_ACTIVE: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-
+        defaultValue:true,
       },
       CREATED_DATE: DataTypes.DATE,
       CREATED_BY: DataTypes.INTEGER,

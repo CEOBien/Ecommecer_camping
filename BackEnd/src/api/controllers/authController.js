@@ -70,9 +70,7 @@ const authController = {
     try {
       const { refreshToken } = req.body;
       if (!refreshToken) throw createError.badRequest("RefreshToken not empty");
-      const { status, message } = await authService.logout({
-        refreshToken,
-      });
+      const { status, message } = await authService.logout(refreshToken);
       return res.status(status).json(createSuccess(status, message));
     } catch (error) {
       next(error);

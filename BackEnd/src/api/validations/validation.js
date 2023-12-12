@@ -100,6 +100,27 @@ const productValidate = (data) => {
   return schema.validate(data);
 };
 
+const discountTypeValidate = (data) => {
+  const schema = Joi.object({
+    NAME: Joi.string().label("NAME"),
+    VALUE: Joi.number().label("VALUE"),
+  });
+
+  return schema.validate(data);
+};
+const discountValidate = (data) => {
+  const schema = Joi.object({
+    CODE: Joi.string().label("CODE"),
+    START_DATE: Joi.date().label("START_DATE").iso().min("now"),
+    END_DATE: Joi.date().label("END_DATE").iso().greater(Joi.ref("START_DATE")),
+    USAGE_LIMIT: Joi.number().label("USAGE_LIMIT").integer().min(1),
+    DISCOUNT_TYPE_ID: Joi.number().label("DISCOUNT_TYPE_ID"),
+    IS_ACTIVE: Joi.boolean().label("IS_ACTIVE"),
+  });
+
+  return schema.validate(data);
+};
+
 module.exports = {
   registerUserValidate,
   changePasswordValidate,
@@ -111,4 +132,6 @@ module.exports = {
   blogValidate,
   commentBlogValidate,
   productValidate,
+  discountTypeValidate,
+  discountValidate,
 };

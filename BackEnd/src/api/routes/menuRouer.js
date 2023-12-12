@@ -10,6 +10,11 @@ router.post(
 );
 router.get("/getAllMenu", menuController.getAllMenu);
 router.get("/getMenuId/:id", menuController.getIdMenu);
-router.patch("/updateMenu/:id", validMenu, menuController.updateMenu);
-router.delete("/deleteMenu/:id", menuController.deleteMenu);
+router.patch(
+  "/updateMenu/:id",
+  verifyAccessToken,
+  validMenu,
+  menuController.updateMenu
+);
+router.delete("/deleteMenu/:id", verifyAccessToken, menuController.deleteMenu);
 module.exports = router;

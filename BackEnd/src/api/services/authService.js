@@ -149,7 +149,7 @@ const authService = {
           },
         });
       } catch (error) {
-        console.log(error);
+        
         reject(error);
       }
     });
@@ -157,7 +157,7 @@ const authService = {
   logout: async (refreshToken) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const { userId } = verifyRefreshToken(refreshToken);
+        const {userId} = await verifyRefreshToken(refreshToken);
         client.del(userId.toString(), (err, reply) => {
           if (err) throw createError.InternalServerError();
 
