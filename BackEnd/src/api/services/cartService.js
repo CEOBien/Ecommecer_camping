@@ -1,26 +1,30 @@
-const { Products, ProductAttributes, Categorys } = require("../models");
+const { Products, Categorys, Carts } = require("../models");
 const client = require("../../config/redis");
 const createError = require("../middlewares/handle_error");
-const { create } = require("archiver");
+const { logCreate, logUpdate } = require("../helpers/logQuery");
 const cartService = {
   addProductCart: async (product, idUser) => {
     return new Promise(async (resolve, reject) => {
       try {
-        client.hset(
-          `cart:${idUser}`,
-          `${product.id}`,
-          `${product.QUANTITY}`,
-          (err, reply) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve({
-                status: 200,
-                message: "add product into cart successfully",
-              });
-            }
-          }
-        );
+        const exist = await Carts.findOne({
+          where: {
+            PRODUCT_ID: product.PRODUCT_ID,
+            CREATED_BY: idUser,
+          },
+        });
+        if (exist) {
+          throw createError.Conflict("Product already exists in the cart")
+        }
+        const addProduct = await Carts.create({
+          ...product,
+          ...logCreate(idUser),
+        });
+        resolve({
+          status: addProduct ? 200 : 401,
+          message: addProduct
+            ? "Create successfully add product"
+            : "Error while add cart product",
+        });
       } catch (error) {
         reject(error);
       }
@@ -29,62 +33,35 @@ const cartService = {
   getAllProductCart: async (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        await client.hgetall(`cart:${userId}`, async (err, reply) => {
-          if (err) {
-            throw createError.badRequest("Please login");
-          } else {
-            const arrProducts = [];
-            for (let productId in reply) {
-              const quantity = reply[productId];
-
-              const product = await Products.findOne({
-                attributes: [
-                  "id",
-                  "NAME",
-                  "PRICE",
-                  "STOCK",
-                  "CATEGORY_ID",
-                  "CD",
-                  "IMAGE_PATH",
-                ],
-                where: {
-                  IS_DELETED: false,
-                  id: productId,
+        
+        const productAll = await Carts.findAndCountAll({
+          attributes: ["QUANTITY"],
+          where: {
+            CREATED_BY: userId,
+          },
+          include: [
+            {
+              model: Products,
+              attributes: ["NAME", "IMAGE_PATH", "STOCK", "PRICE","CATEGORY_ID","DESC"],
+              where: {
+                IS_DELETED: false,
+              },
+              include: [
+                {
+                  model: Categorys,
+                  attributes: ["TITLE"],
+                  where: {
+                    IS_DELETED: false,
+                  },
                 },
-                include: [
-                  {
-                    model: Categorys,
-                    attributes: ["TITLE"],
-                    where: {
-                      IS_DELETED: false,
-                    },
-                  },
-                  {
-                    model: ProductAttributes,
-                    attributes: ["KEY", "VALUE"],
-                    where: {
-                      IS_DELETED: false,
-                    },
-                  },
-                ],
-              });
-
-              if (product) {
-                // Combine product information with quantity
-                const productWithQuantity = {
-                  ...product.get({ plain: true }),
-                  quantity: parseInt(quantity),
-                };
-                arrProducts.push(productWithQuantity);
-              }
-            }
-
-            resolve({
-              status: 200,
-              message: "Get all product cart successfully",
-              elements: arrProducts,
-            });
-          }
+              ],
+            },
+          ],
+        });
+        resolve({
+          status: 200,
+          message: "Get all product cart",
+          elements: productAll,
         });
       } catch (error) {
         reject(error);
@@ -95,22 +72,22 @@ const cartService = {
   updateQuantity: async (product, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(product.id);
-        client.hincrby(
-          `cart:${userId}`,
-          `${product.id}`,
-          `${product.QUANTITY}`,
-          (err, reply) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve({
-                status: 200,
-                message: "update quantity successfully",
-              });
-            }
+        const updateProduct = await Carts.update(
+          {
+            QUANTITY: product.QUANTITY,
+          },
+          {
+            where: {
+              id: product.id
+            },
           }
         );
+        resolve({
+          status: updateProduct ? 200 : 401,
+          message: updateProduct
+            ? "Update quantity cart product"
+            : "Error update quantity cart product.",
+        });
       } catch (error) {
         reject(error);
       }
@@ -119,35 +96,17 @@ const cartService = {
   deleteProductCart: async (productId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        client.hdel(`cart:${userId}`, `${productId}`, (err, reply) => {
-          if (err)
-            throw createError.badRequest(
-              "Error while delete product into cart"
-            );
-          resolve({
-            status: 200,
-            message: "delete product into cart succeefuuly",
-          });
+        const deleteProduct = await Carts.destroy({
+          where: {
+            id: productId,
+            CREATED_BY: userId,
+          },
         });
-      } catch (error) {
-        reject(error);
-      }
-    });
-  },
-  CountProductCart: async (userId) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        
-        client.hlen(`cart:${userId}`, (err, reply) => {
-          if (err) throw createError.badRequest("Count product not found");
-          
-          resolve({
-            status: reply ? 200 : 400,
-            message: reply
-              ? "Get sum quantity product into cart successfully"
-              : "Error while get sum quantity",
-            elements: reply,
-          });
+        resolve({
+          status: deleteProduct ? 200 : 400,
+          message: deleteProduct
+            ? "Delete product successfully"
+            : "Error while delete product",
         });
       } catch (error) {
         reject(error);

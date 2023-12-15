@@ -9,7 +9,7 @@ const cartController = {
       const { QUANTITY } = req.body;
 
       const { status, message } = await cartService.addProductCart(
-        { id, QUANTITY },
+        { PRODUCT_ID: id, QUANTITY },
         req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
@@ -48,16 +48,6 @@ const cartController = {
         req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message));
-    } catch (error) {
-      next(error);
-    }
-  },
-  CountProductCart: async (req, res, next) => {
-    try {
-      const { status, message, elements } = await cartService.CountProductCart(
-        req?.payload?.userId
-      );
-      res.status(status).json(createSuccess(status, message,elements));
     } catch (error) {
       next(error);
     }

@@ -1,7 +1,13 @@
-const { Products, ProductAttributes, Categorys } = require("../models");
+const {
+  Products,
+  ProductAttributes,
+  Categorys,
+  Sequelize,
+} = require("../models");
 const { logCreate, logUpdate } = require("../helpers/logQuery");
 const { createError } = require("http-errors");
 const cloudinary = require("cloudinary").v2;
+const { Op } = Sequelize;
 const productService = {
   createProduct: async (Product, createBy) => {
     return new Promise(async (resolve, reject) => {
@@ -251,6 +257,69 @@ const productService = {
             message: "Delete product successfully !",
           });
         }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  searchProduct: async (name) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await Products.findAll({
+          attributes: [
+            "NAME",
+            "STOCK",
+            "PRICE",
+            "IMAGE_PATH",
+            "CATEGORY_ID",
+            "DESC",
+          ],
+          where: {
+            NAME: { [Op.like]: `%${name}%` },
+            IS_DELETED: false,
+          },
+          include: [
+            {
+              model: Categorys,
+              attributes: ["TITLE"],
+              where: {
+                IS_DELETED: false,
+              },
+            },
+          ],
+        });
+        resolve({
+          status: 200,
+          message: "Search product successfully",
+          elements: result,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  getProductOfCategory: async (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const categoriesId = await Categorys.findAll({
+          where: { PARENT_ID: id },
+          attributes: ["id"],
+        });
+        const response = await Products.findAll({
+          where: {
+            [Op.or]: [
+              { CATEGORY_ID: parseInt(id) }, // Sản phẩm thuộc danh mục cha
+              {
+                CATEGORY_ID: categoriesId.map((subcategory) => subcategory.id),
+              }, // Sản phẩm thuộc danh mục con
+            ],
+          },
+        });
+        resolve({
+          status: 200,
+          message: "Get product of category",
+          elements: response,
+        });
       } catch (error) {
         reject(error);
       }

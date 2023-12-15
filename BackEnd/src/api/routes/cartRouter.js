@@ -21,9 +21,4 @@ router.delete(
   verifyAccessToken,
   cartController.deleteProductCart
 );
-router.get(
-  "/CountProductCart",
-  verifyAccessToken,
-  cartController.CountProductCart
-);
 module.exports = router;

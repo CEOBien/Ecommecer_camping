@@ -94,5 +94,25 @@ const productController = {
       next(error);
     }
   },
+  searchProduct: async (req, res, next) => {
+    try {
+      const { status, message, elements } = await ProductService.searchProduct(
+        req.body.name
+      );
+      res.status(status).json(createSuccess(status, message, elements));
+    } catch (error) {
+      next(error);
+    }
+  },
+  getProductOfCategory: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { status, message, elements } =
+        await ProductService.getProductOfCategory(id);
+      res.status(status).json(createSuccess(status, message, elements));
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 module.exports = productController;

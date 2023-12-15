@@ -178,7 +178,7 @@ paths:
               $ref: "#/components/schemas/user"
             example:
               "refreshToken": "asdaasd"
-              
+
       responses:
         "200":
           description: Success
@@ -1501,7 +1501,65 @@ paths:
           content: {}
       security:
         - JWT: []
+  /api/product/searchProduct:
+    post:
+      tags:
+        - Product
+      summary: search product
+      operationId: search product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/product"
+            example:
+              "name": "ghe nhua"
 
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  /api/product/getProductOfCategory/{categoryId}:
+    get:
+      tags:
+        - Product
+      summary: get  category Id
+      operationId: get category Id
+      parameters:
+        - name: categoryId
+          in: path
+          description: Please provide categoryId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
   #cart
   /api/cart/addProductCart/{productId}:
     post:
@@ -1615,27 +1673,6 @@ paths:
             type: string
             example: "1"
 
-      responses:
-        "200":
-          description: Success
-          content: {}
-        "400":
-          description: Bad Request
-          content: {}
-        "401":
-          description: UnAuthorized
-          content: {}
-        "404":
-          description: Not found
-          content: {}
-      security:
-        - JWT: []
-  /api/cart/CountProductCart:
-    get:
-      tags:
-        - cart
-      summary: get quantity product into cart
-      operationId: get quantity product into cart
       responses:
         "200":
           description: Success
