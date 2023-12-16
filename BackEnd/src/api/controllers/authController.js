@@ -34,7 +34,9 @@ const authController = {
   },
   login: async (req, res, next) => {
     try {
-      const { status, message, elements } = await authService.login(req.body);
+      const { status, message, elements } = await authService.login(
+        req.body,
+      );
 
       return res.status(status).json(
         createSuccess({

@@ -114,7 +114,6 @@ const authService = {
         //check code if exist or not
         if (!exist) throw createError.NotFound("Email not register"); 
         const isPassword = await bcrypt.compare(PASSWORD,exist.PASSWORD);
-        console.log(isPassword)
         //if password incorrect then show error
         if (!isPassword)
           throw createError.Unauthorized("Email or password incorrect");
@@ -127,6 +126,7 @@ const authService = {
           elements: {
             accessToken: accessToken,
             refreshToken: refreshToken,
+            userId:exist.id,
           },
         });
       } catch (error) {
