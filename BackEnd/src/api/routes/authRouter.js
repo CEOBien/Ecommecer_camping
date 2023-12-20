@@ -7,7 +7,7 @@ router.post("/registerUser", validAuth, authController.registerUser);
 router.post("/registerUser/verifyOtp", authController.verifyOtp);
 router.post("/login", validAuth, authController.login);
 router.post("/refreshToken", authController.refreshToken);
-router.delete("/logout", (verifyAccessToken, authController.logout));
+router.post("/logout", (verifyAccessToken, authController.logout));
 router.patch(
   "/changePassword/:id",
   verifyAccessToken,

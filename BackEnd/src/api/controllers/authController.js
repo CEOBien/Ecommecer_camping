@@ -34,9 +34,7 @@ const authController = {
   },
   login: async (req, res, next) => {
     try {
-      const { status, message, elements } = await authService.login(
-        req.body,
-      );
+      const { status, message, elements } = await authService.login(req.body);
 
       return res.status(status).json(
         createSuccess({
@@ -71,6 +69,7 @@ const authController = {
   logout: async (req, res, next) => {
     try {
       const { refreshToken } = req.body;
+      console.log(req.body.refreshToken);
       if (!refreshToken) throw createError.badRequest("RefreshToken not empty");
       const { status, message } = await authService.logout(refreshToken);
       return res.status(status).json(createSuccess(status, message));
