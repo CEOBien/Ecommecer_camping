@@ -9,7 +9,7 @@ module.exports.generateAccessToken = (userId) => {
     };
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const option = {
-      expiresIn: "1d",
+      expiresIn: "10m",
     };
     jwt.sign(payload, secret, option, (err, token) => {
       if (err) reject(err);
@@ -41,14 +41,15 @@ module.exports.verifyAccessToken = async (req, res, next) => {
   //get token
   const authHeader = req.headers["authorization"];
   const bearerToken = authHeader.split(" ");
-  const token = bearerToken[0];
+  const token = bearerToken[1];
+
   //start verify token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) {
       if (err.name === "JsonWebTokenError") {
         return next(createError.Unauthorized());
       }
-      return next(createError.Unauthorized(err.message));
+      return next(createError.Unauthorized("Vui lòng đăng nhập"));
     }
 
     req.payload = payload;

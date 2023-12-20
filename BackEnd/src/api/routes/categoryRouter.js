@@ -8,16 +8,8 @@ router.post(
   validCategory,
   categoryController.createCategory
 );
-router.get(
-  "/getAllCategory",
-  verifyAccessToken,
-  categoryController.getAllCategory
-);
-router.get(
-  "/getCategoryId/:id",
-  verifyAccessToken,
-  categoryController.getCategoryId
-);
+router.get("/getAllCategory", categoryController.getAllCategory);
+router.get("/getCategoryId/:id", categoryController.getCategoryId);
 router.patch(
   "/updateCategory/:id",
   verifyAccessToken,

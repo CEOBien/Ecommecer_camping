@@ -7,13 +7,17 @@ const cartController = {
     try {
       const { id } = req.params;
       const { QUANTITY } = req.body;
-      console.log({id,QUANTITY})
+      const userId = req.payload.userId;
+      if (!userId) {
+        return next(createError.Unauthorized("User ID not found"));
+      }
       const { status, message } = await cartService.addProductCart(
         { PRODUCT_ID: id, QUANTITY },
-        req?.payload?.userId
+        userId
       );
       res.status(status).json(createSuccess(status, message));
     } catch (error) {
+      console.log(error);
       next(error);
     }
   },

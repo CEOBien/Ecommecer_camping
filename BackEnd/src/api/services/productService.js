@@ -267,6 +267,7 @@ const productService = {
       try {
         const result = await Products.findAll({
           attributes: [
+            "id",
             "NAME",
             "STOCK",
             "PRICE",
@@ -306,6 +307,15 @@ const productService = {
           attributes: ["id"],
         });
         const response = await Products.findAll({
+          attributes: [
+            "id",
+            "NAME",
+            "PRICE",
+            "STOCK",
+            "CATEGORY_ID",
+            "CD",
+            "IMAGE_PATH",
+          ],
           where: {
             [Op.or]: [
               { CATEGORY_ID: parseInt(id) }, // Sản phẩm thuộc danh mục cha
@@ -313,6 +323,7 @@ const productService = {
                 CATEGORY_ID: categoriesId.map((subcategory) => subcategory.id),
               }, // Sản phẩm thuộc danh mục con
             ],
+            IS_DELETED: false,
           },
         });
         resolve({

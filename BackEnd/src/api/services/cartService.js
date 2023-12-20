@@ -13,7 +13,7 @@ const cartService = {
           },
         });
         if (exist) {
-          throw createError.Conflict("Product already exists in the cart")
+          throw createError.badRequest();
         }
         const addProduct = await Carts.create({
           ...product,
@@ -42,7 +42,7 @@ const cartService = {
           include: [
             {
               model: Products,
-              attributes: ["NAME", "IMAGE_PATH", "STOCK", "PRICE","CATEGORY_ID","DESC"],
+              attributes: ["id","NAME", "IMAGE_PATH", "STOCK", "PRICE","CATEGORY_ID","DESC"],
               where: {
                 IS_DELETED: false,
               },
@@ -98,7 +98,7 @@ const cartService = {
       try {
         const deleteProduct = await Carts.destroy({
           where: {
-            id: productId,
+            PRODUCT_ID: productId,
             CREATED_BY: userId,
           },
         });
