@@ -69,7 +69,6 @@ const authController = {
   logout: async (req, res, next) => {
     try {
       const { refreshToken } = req.body;
-      console.log(req.body.refreshToken);
       if (!refreshToken) throw createError.badRequest("RefreshToken not empty");
       const { status, message } = await authService.logout(refreshToken);
       return res.status(status).json(createSuccess(status, message));

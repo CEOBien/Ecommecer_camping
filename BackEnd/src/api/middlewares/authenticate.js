@@ -25,7 +25,7 @@ module.exports.resetToken = (userId) => {
     };
     const secret = process.env.RESET_TOKEN_SECRET;
     const option = {
-      expiresIn: "1m",
+      expiresIn: "5m",
     };
     jwt.sign(payload, secret, option, (err, token) => {
       if (err) reject(err);

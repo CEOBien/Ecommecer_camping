@@ -45,7 +45,7 @@ module.exports.resetPassword = async ( email, resetToken ) => {
     subject: "Reset password", // Subject line
     text:
       "Dear Mate,  " +
-      `\nClick the link to reset your password:http://${process.env.BASE_URL}:${process.env.PORT}/resetPassword/${resetToken}.` +
+      `\nClick the link to reset your password:http://${process.env.BASE_URL}/resetPassword/${resetToken}.` +
       "\nThis link exists for 5 minutes." +
       "\nIf you have any questions, please contact us at the email below:" +
       "\ndxhai.20it11@vku.udn.vn \ndaohai271@gmail.com", // plain text body
