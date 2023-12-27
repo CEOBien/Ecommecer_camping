@@ -11,7 +11,7 @@ router.post(
   blogController.createBlog
 );
 router.get("/getAllBlog", blogController.getAllBlog);
-router.get("/getBlogId/:id", verifyAccessToken, blogController.getBlogId);
+router.get("/getBlogId/:id", blogController.getBlogId);
 router.patch(
   "/updateBlog/:id",
   verifyAccessToken,

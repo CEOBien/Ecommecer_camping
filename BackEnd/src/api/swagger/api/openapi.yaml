@@ -2235,6 +2235,111 @@ paths:
           content: {}
       security:
         - JWT: []
+
+  #order
+  /api/order/createOrder:
+    post:
+      tags:
+        - order
+      summary: create order
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/order"
+            example:
+              NAME: "Nguyen Van Teo"
+              NAME_CODE: "asdasd123e2r1eqwda233"
+              ADDRESS: "thanh pho da nang - quan hai chau"
+              PHONE: "012371212"
+              TOTAL: "1111"
+              TOTAL_DISCOUNTED: "1011"
+              LIST_PRODUCT:
+                - id: 60
+                  QUANTITY: 6
+                - id: 59
+                  QUANTITY: 2
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
+  /api/order/confirmOrder/{orderId}:
+    patch:
+      tags:
+        - order
+      summary: confirm order
+      operationId: confirm order
+      parameters:
+        - name: orderId
+          in: path
+          description: Please provide DiscountId
+          required: true
+          schema:
+            type: string
+            example: "1"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/order"
+            example:
+              confirm: true
+              
+
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+  
+  /api/order/getAllOrder:
+    get:
+      tags:
+        - order
+      summary: get all order
+      operationId: get all order
+      responses:
+        "200":
+          description: Success
+          content: {}
+        "400":
+          description: Bad Request
+          content: {}
+        "401":
+          description: UnAuthorized
+          content: {}
+        "404":
+          description: Not found
+          content: {}
+      security:
+        - JWT: []
+
 components:
   schemas:
   securitySchemes:

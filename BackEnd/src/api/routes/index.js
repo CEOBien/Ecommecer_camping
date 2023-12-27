@@ -27,6 +27,7 @@ let initWebRoutes = (app) => {
   router.use("/rateProduct", require("./rateProductRouter.js"));
   router.use("/discountType", require("./discountTypeRouter.js"));
   router.use("/discounts", require("./discountRouter.js"));
+  router.use("/order",require("./orderRouter.js"))
   router.get("/", (req, res) => {
     res.send("hello there !");
   });
