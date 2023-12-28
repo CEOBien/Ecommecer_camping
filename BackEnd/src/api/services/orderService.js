@@ -1,4 +1,4 @@
-const { Orders, OrderDetails, Products } = require("../models");
+const { Orders, OrderDetails, Products, Carts } = require("../models");
 const { logCreate, logUpdate } = require("../helpers/logQuery");
 const { createError } = require("http-errors");
 
@@ -31,6 +31,13 @@ const orderService = {
             QUANTITY: product.QUANTITY,
           });
         });
+        if (res) {
+          await Carts.destroy({
+            where: {
+              CREATED_BY: customer_id,
+            },
+          });
+        }
         resolve({
           status: res ? 200 : 401,
           message: res
@@ -105,6 +112,86 @@ const orderService = {
       }
     });
   },
+  getOrderUser: async (id) => {
+    return new Promise (async (resolve,reject)=>{
+      try {
+        const response = await Orders.findAll({
+          attributes: [
+            "NAME",
+            "NAME_CODE",
+            "ADDRESS",
+            "PHONE",
+            "TOTAL",
+            "TOTAL_DISCOUNTD",
+            "STATUS_ORDER",
+            "CREATED_DATE"
+          ],
+          where: {
+            IS_DELETED: false,
+            CREATED_BY:id,
+          },
+          include: {
+            model: OrderDetails,
+            where: { IS_DELETED: false },
+            include: {
+              model: Products,
+              attributes: ["NAME", "IMAGE_PATH", "PRICE", "STOCK", "DESC"],
+              where: {
+                IS_DELETED: false,
+              },
+            },
+          },
+        });
+        resolve({
+          status: 200,
+          message: "Get all order successfully",
+          elements: response,
+        });
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+  getOrderId:async (id) =>{
+    return new Promise(async(resolve,reject)=>{
+      try {
+        const response = await Orders.findOne({
+          attributes: [
+            "NAME",
+            "NAME_CODE",
+            "ADDRESS",
+            "PHONE",
+            "TOTAL",
+            "TOTAL_DISCOUNTD",
+            "STATUS_ORDER",
+            "CREATED_DATE"
+          ],
+          where: {
+            IS_DELETED: false,
+            id:id,
+          },
+          include: {
+            model: OrderDetails,
+            where: { IS_DELETED: false },
+            include: {
+              model: Products,
+              attributes: ["NAME", "IMAGE_PATH", "PRICE", "STOCK", "DESC"],
+              where: {
+                IS_DELETED: false,
+              },
+            },
+          },
+        });
+        resolve({
+          status: 200,
+          message: "Get id order successfully",
+          elements: response,
+        });
+      } catch (error) {
+        reject(error)
+      }
+    })
+  }
 };
 
 module.exports = orderService;

@@ -37,5 +37,24 @@ const orderControler = {
       next(error);
     }
   },
+  getOrderUser: async (req, res, next) => {
+    try {
+      const { status, message, elements } = await orderService.getAllOrder(
+        req?.payload?.userId
+      );
+      res.status(status).json(createSuccess(status, message, elements));
+    } catch (error) {
+      next(error);
+    }
+  },
+  getOrderId: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const { status, message, elements } = await orderService.getOrderId(id);
+      res.status(status).json(createSuccess(status, message, elements));
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 module.exports = orderControler;

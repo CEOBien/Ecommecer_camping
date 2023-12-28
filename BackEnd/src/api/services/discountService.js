@@ -24,7 +24,14 @@ const discountService = {
     return new Promise(async (resolve, reject) => {
       try {
         const getDiscount = await Discounts.findOne({
-          attributes:["CODE","START_DATE","END_DATE","USAGE_LIMIT","IS_ACTIVE","DISCOUNT_TYPE_ID"],
+          attributes: [
+            "CODE",
+            "START_DATE",
+            "END_DATE",
+            "USAGE_LIMIT",
+            "IS_ACTIVE",
+            "DISCOUNT_TYPE_ID",
+          ],
           where: {
             id: id,
             IS_DELETED: false,
@@ -51,7 +58,47 @@ const discountService = {
     return new Promise(async (resolve, reject) => {
       try {
         const listDiscount = await Discounts.findAll({
-          attributes:["CODE","START_DATE","END_DATE","USAGE_LIMIT","IS_ACTIVE","DISCOUNT_TYPE_ID"],
+          attributes: [
+            "CODE",
+            "START_DATE",
+            "END_DATE",
+            "USAGE_LIMIT",
+            "IS_ACTIVE",
+            "DISCOUNT_TYPE_ID",
+          ],
+          where: {
+            IS_DELETED: false,
+          },
+          include: [
+            {
+              model: DiscountTypes,
+              attributes: ["NAME", "VALUE"],
+              IS_DELETED: false,
+            },
+          ],
+        });
+        resolve({
+          status: 200,
+          message: "Get list Discount successfully",
+          elements: listDiscount,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+  getAllDiscountUser: async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const listDiscount = await Discounts.findAll({
+          attributes: [
+            "CODE",
+            "START_DATE",
+            "END_DATE",
+            "USAGE_LIMIT",
+            "IS_ACTIVE",
+            "DISCOUNT_TYPE_ID",
+          ],
           where: {
             IS_DELETED: false,
           },

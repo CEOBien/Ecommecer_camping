@@ -9,7 +9,7 @@ module.exports.generateAccessToken = (userId) => {
     };
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const option = {
-      expiresIn: "10m",
+      expiresIn: "30m",
     };
     jwt.sign(payload, secret, option, (err, token) => {
       if (err) reject(err);
