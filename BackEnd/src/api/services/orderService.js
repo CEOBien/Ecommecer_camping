@@ -113,7 +113,7 @@ const orderService = {
     });
   },
   getOrderUser: async (id) => {
-    return new Promise (async (resolve,reject)=>{
+    return new Promise(async (resolve, reject) => {
       try {
         const response = await Orders.findAll({
           attributes: [
@@ -124,12 +124,13 @@ const orderService = {
             "TOTAL",
             "TOTAL_DISCOUNTD",
             "STATUS_ORDER",
-            "CREATED_DATE"
+            "CREATED_DATE",
           ],
           where: {
             IS_DELETED: false,
-            CREATED_BY:id,
+            CREATED_BY: id,
           },
+          order: [["CREATED_DATE", "DESC"]],
           include: {
             model: OrderDetails,
             where: { IS_DELETED: false },
@@ -142,21 +143,24 @@ const orderService = {
             },
           },
         });
+
         resolve({
           status: 200,
-          message: "Get all order successfully",
+          message: "Get all orders successfully",
           elements: response,
         });
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-    })
+    });
   },
-  getOrderId:async (id) =>{
-    return new Promise(async(resolve,reject)=>{
+
+  getOrderId: async (id) => {
+    return new Promise(async (resolve, reject) => {
       try {
         const response = await Orders.findOne({
           attributes: [
+            "id",
             "NAME",
             "NAME_CODE",
             "ADDRESS",
@@ -164,11 +168,11 @@ const orderService = {
             "TOTAL",
             "TOTAL_DISCOUNTD",
             "STATUS_ORDER",
-            "CREATED_DATE"
+            "CREATED_DATE",
           ],
           where: {
             IS_DELETED: false,
-            id:id,
+            id: id,
           },
           include: {
             model: OrderDetails,
@@ -188,10 +192,10 @@ const orderService = {
           elements: response,
         });
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-    })
-  }
+    });
+  },
 };
 
 module.exports = orderService;

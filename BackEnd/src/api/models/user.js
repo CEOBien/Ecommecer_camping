@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      REFRESH_TOKEN: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
       CD: {
         type: DataTypes.STRING,
         allowNull: true,

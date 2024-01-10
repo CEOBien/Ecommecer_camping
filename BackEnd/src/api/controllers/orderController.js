@@ -39,7 +39,7 @@ const orderControler = {
   },
   getOrderUser: async (req, res, next) => {
     try {
-      const { status, message, elements } = await orderService.getAllOrder(
+      const { status, message, elements } = await orderService.getOrderUser(
         req?.payload?.userId
       );
       res.status(status).json(createSuccess(status, message, elements));
